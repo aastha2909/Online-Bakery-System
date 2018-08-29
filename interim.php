@@ -1,0 +1,28 @@
+<?php
+error_reporting(0);
+mysql_connect('localhost','root','');
+mysql_select_db('Project');
+session_start();
+$_SESSION['role']=$_POST['em'].$_POST['pw'];
+if(!(isset($_SESSION['role'])))
+	header('location:failed.php');
+if(isset($_POST['login']))
+{
+	$emm=$_POST['em'];
+	$pww=$_POST['pw'];
+	$str="SELECT * FROM `register` WHERE `Email` like '$emm'";	
+	$res3=mysql_query($str);
+	if(!mysql_query($str))
+	{
+		header('location:failed.php');
+	}
+	else
+	{
+		$result=mysql_fetch_assoc($res3);
+		if($result['Password']!=$pww)
+			header('location:failed.php');
+		else
+			header('location:accprof.php');
+	}
+}
+?>
